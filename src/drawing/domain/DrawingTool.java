@@ -7,12 +7,10 @@ package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
 import drawing.persistency.PersistencyMediator;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.io.File;
+import java.awt.*;
+import java.io.*;
 import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -36,7 +34,7 @@ public class DrawingTool extends Application{
         
         StackPane root = new StackPane();
         
-
+        
         root.getChildren().add(canvas);
         
         Scene scene = new Scene(root, 500, 500);
