@@ -6,13 +6,14 @@
 package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author yannic
  */
-public class Drawing {
+public class Drawing implements Serializable{
     private String name;
     private int width;
     private int height;

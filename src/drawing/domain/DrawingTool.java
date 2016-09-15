@@ -6,6 +6,7 @@
 package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
+import drawing.persistency.DatabaseMediator;
 import drawing.persistency.PersistencyMediator;
 import java.awt.*;
 import java.io.*;
@@ -71,6 +72,18 @@ public class DrawingTool extends Application{
         gc = canvas.getGraphicsContext2D();
         JavaFXPaintable paintable = new JavaFXPaintable(gc);
         drawing.paint(paintable);
+    }
+    
+    public void save(){
+        //if(foo.checked == true...
+        pm.save(drawing);
+        //else if(toCloud.checked == true...
+        pm = new DatabaseMediator();
+    }
+    
+    public Drawing load(String drawingName){
+        Drawing loaded = pm.load(drawingName);
+        return loaded;
     }
     
 }

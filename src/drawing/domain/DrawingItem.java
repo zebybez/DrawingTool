@@ -6,12 +6,13 @@
 package drawing.domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  *
  * @author yannic
  */
-public class DrawingItem implements Comparable<DrawingItem>{
+public class DrawingItem implements Comparable<DrawingItem>, Serializable{
     private Point anchor;
     private Color color;
     private DrawingItem previousState;
