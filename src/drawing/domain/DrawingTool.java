@@ -6,9 +6,10 @@
 package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
-import drawing.persistency.DatabaseMediator;
 import drawing.persistency.PersistencyMediator;
-import java.io.*;
+
+import java.util.Properties;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +18,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -29,12 +29,13 @@ public class DrawingTool extends Application{
     private PersistencyMediator pm;  
     private Drawing drawing;
     private Canvas canvas;
-    
-    
-    public DrawingTool(){
-        
+    private Properties props;
+
+    public DrawingTool() {
+
+        //this.props = readFromFile;
     }
-    
+
     @Override
     public void start(Stage primaryStage) {
         
@@ -54,45 +55,22 @@ public class DrawingTool extends Application{
                 MenuItem miSetSerialize = new MenuItem("Serialize settings");
             mediatorMenu.getItems().addAll(miSetDatabase, miSetSerialize);
         menu.getMenus().addAll(fileMenu, mediatorMenu);
-        
+        //TODO: add edit menu
+
+
         //set events and add to the buttons
-        
+
         EventHandler<ActionEvent> saveAction;
         EventHandler<ActionEvent> setSerialAction;
         EventHandler<ActionEvent> setDatabaseAction;
         EventHandler<ActionEvent> clearAction;            
         EventHandler<ActionEvent> loadAction;    
         
-        saveAction = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("save action");
-            }
-        } ;
-        setSerialAction = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("set serialize action");
-            }
-        };
-        setDatabaseAction = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("set database action");
-            }
-        };
-        loadAction = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("load action");
-            }
-        };
-        clearAction = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("clear action");
-            }
-        };
+        saveAction = event -> System.out.println("save action");
+        setSerialAction = event -> System.out.println("set serialize action");
+        setDatabaseAction = event -> System.out.println("set database action");
+        loadAction = event -> System.out.println("load action");
+        clearAction = event -> System.out.println("clear action");
         
             miSave.setOnAction(saveAction);
             miLoad.setOnAction(loadAction);
@@ -103,7 +81,7 @@ public class DrawingTool extends Application{
         root.setTop(menu);
         root.setBottom(canvas);
         
-        Scene scene = new Scene(root, 500, 500);
+        Scene scene = new Scene(root, 500, 500+menu.getHeight());
         
         primaryStage.setTitle("Drawing tooltje");
         primaryStage.setScene(scene);
@@ -117,10 +95,10 @@ public class DrawingTool extends Application{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
-        launch(args);
 
+
+        launch(args);
+        //todo: write properties to file
        
     }
     
@@ -131,11 +109,15 @@ public class DrawingTool extends Application{
         drawing.paint(paintable);
     }
     
-    public void save(){
+    public void save()
+    {
+        //TODO: implement save
         System.out.println("TODO: implement save");
     }
     
     public Drawing load(String drawingName){
+
+        //TODO: implement load
         System.out.println("TODO: implement load");
         return null;
     }

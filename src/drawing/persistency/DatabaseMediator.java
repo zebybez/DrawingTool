@@ -13,6 +13,8 @@ import java.util.Properties;
  * @author yannic
  */
 public class DatabaseMediator implements PersistencyMediator{
+
+    Properties props;
     @Override
     public Drawing load(String drawingName){
         //load from database and assemble to drawing using objectInputStream
@@ -27,7 +29,7 @@ public class DatabaseMediator implements PersistencyMediator{
     
     @Override
     public boolean init(Properties props){
-        //i dont know what init has to do yet...........yea...
+        this.props = props;
         return false;
     }
 }
