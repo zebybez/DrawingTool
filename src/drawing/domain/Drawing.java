@@ -6,6 +6,10 @@
 package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.io.File;
 import java.io.Serializable;
 import java.util.*;
 
@@ -81,9 +85,19 @@ public class Drawing implements Serializable{
         
     }
 
-    void paint(Paintable paintable) {
+    public void paint(Paintable paintable) {
         for(DrawingItem i : drawingItems){
             i.paint(paintable);
         }
+    }
+    
+    public void drawTestItems(){
+        addItem(new Image(new File("file:///C:/Users/yannic/Pictures/johnny-test.jpg"), 0, Color.yellow, new Point()));
+        addItem(new Oval(getWidth(), getHeight(), Color.yellow, new Point()));
+        addItem(new Oval(200, 400, Color.red, new Point(30, 40)));
+        addItem(new Polygon(5, new Point[]{new Point(4,5), new Point(16,23), new Point(36, 100)}, Color.green, new Point(9,8)));
+        addItem(new Spline(new Point[]{new Point(50, 50), new Point(33, 44), new Point(100, 56)}, 0, 0, Color.black, new Point(70, 88)));
+        addItem(new PaintedText("this is painted text", new Font("myfont", 4, 16), Color.orange, new Point(20, 90)));
+
     }
 }

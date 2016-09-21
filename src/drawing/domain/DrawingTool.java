@@ -8,13 +8,15 @@ package drawing.domain;
 import drawing.javafx.JavaFXPaintable;
 import drawing.persistency.DatabaseMediator;
 import drawing.persistency.PersistencyMediator;
-import java.awt.*;
 import java.io.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -27,16 +29,79 @@ public class DrawingTool extends Application{
     private PersistencyMediator pm;  
     private Drawing drawing;
     private Canvas canvas;
+    
+    
+    public DrawingTool(){
+        
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         
         drawing = new Drawing("test", 500, 500);
         canvas = new Canvas(drawing.getWidth(), drawing.getHeight());
         
-        StackPane root = new StackPane();
+        BorderPane root = new BorderPane();
         
+        MenuBar menu = new MenuBar();
+            Menu fileMenu = new Menu("file");
+                MenuItem miSave = new MenuItem("save");
+                MenuItem miLoad = new MenuItem("load");
+                MenuItem miClear = new MenuItem("clear");
+            fileMenu.getItems().addAll(miSave, miLoad, miClear);
+            Menu mediatorMenu = new Menu("save to...");
+                MenuItem miSetDatabase = new MenuItem("database settings");
+                MenuItem miSetSerialize = new MenuItem("Serialize settings");
+            mediatorMenu.getItems().addAll(miSetDatabase, miSetSerialize);
+        menu.getMenus().addAll(fileMenu, mediatorMenu);
         
-        root.getChildren().add(canvas);
+        //set events and add to the buttons
+        
+        EventHandler<ActionEvent> saveAction;
+        EventHandler<ActionEvent> setSerialAction;
+        EventHandler<ActionEvent> setDatabaseAction;
+        EventHandler<ActionEvent> clearAction;            
+        EventHandler<ActionEvent> loadAction;    
+        
+        saveAction = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("save action");
+            }
+        } ;
+        setSerialAction = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("set serialize action");
+            }
+        };
+        setDatabaseAction = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("set database action");
+            }
+        };
+        loadAction = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("load action");
+            }
+        };
+        clearAction = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("clear action");
+            }
+        };
+        
+            miSave.setOnAction(saveAction);
+            miLoad.setOnAction(loadAction);
+            miClear.setOnAction(clearAction);
+            miSetDatabase.setOnAction(setDatabaseAction);
+            miSetSerialize.setOnAction(setSerialAction);
+        
+        root.setTop(menu);
+        root.setBottom(canvas);
         
         Scene scene = new Scene(root, 500, 500);
         
@@ -44,13 +109,7 @@ public class DrawingTool extends Application{
         primaryStage.setScene(scene);
         primaryStage.show(); 
         
-        drawing.addItem(new Image(new File("file:///C:/Users/yannic/Pictures/johnny-test.jpg"), 0, Color.yellow, new Point()));
-        drawing.addItem(new Oval(drawing.getWidth(), drawing.getHeight(), Color.yellow, new Point()));
-        drawing.addItem(new Oval(200, 400, Color.red, new Point(30, 40)));
-        drawing.addItem(new Polygon(5, new Point[]{new Point(4,5), new Point(16,23), new Point(36, 100)}, Color.green, new Point(9,8)));
-        drawing.addItem(new Spline(new Point[]{new Point(50, 50), new Point(33, 44), new Point(100, 56)}, 0, 0, Color.black, new Point(70, 88)));
-        drawing.addItem(new PaintedText("this is painted text", new Font("myfont", 4, 16), Color.orange, new Point(20, 90)));
-
+        drawing.drawTestItems();
         
         draw();
     }
@@ -59,8 +118,6 @@ public class DrawingTool extends Application{
      */
     public static void main(String[] args) {
         // TODO code application logic here
-
-        //drawing.addItem(new Image(new File(""), 12.34, Color.red, new Point(90, 20)));
         
         launch(args);
 
@@ -75,15 +132,12 @@ public class DrawingTool extends Application{
     }
     
     public void save(){
-        //if(foo.checked == true...
-        pm.save(drawing);
-        //else if(toCloud.checked == true...
-        pm = new DatabaseMediator();
+        System.out.println("TODO: implement save");
     }
     
     public Drawing load(String drawingName){
-        Drawing loaded = pm.load(drawingName);
-        return loaded;
+        System.out.println("TODO: implement load");
+        return null;
     }
     
 }
