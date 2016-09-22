@@ -90,8 +90,12 @@ public class Drawing implements Serializable{
             i.paint(paintable);
         }
     }
+
+    public void clear(Paintable paintable){
+        paintable.clear();
+    }
     
-    public void drawTestItems(){
+    public void addTestItems(){
         addItem(new Image(new File("file:///C:/Users/yannic/Pictures/johnny-test.jpg"), 0, Color.yellow, new Point()));
         addItem(new Oval(getWidth(), getHeight(), Color.yellow, new Point()));
         addItem(new Oval(200, 400, Color.red, new Point(30, 40)));

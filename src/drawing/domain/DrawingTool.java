@@ -6,10 +6,12 @@
 package drawing.domain;
 
 import drawing.javafx.JavaFXPaintable;
-import drawing.persistency.PersistencyMediator;
+import drawing.persistency.DatabaseMediator;
+import drawing.persistency.PersistenceMediator;
 
-import java.util.Properties;
+import java.util.*;
 
+import drawing.persistency.SerializationMediator;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,21 +28,22 @@ import javafx.stage.Stage;
  */
 public class DrawingTool extends Application{
        
-    private PersistencyMediator pm;  
+    private PersistenceMediator pm;
     private Drawing drawing;
-    private Canvas canvas;
     private Properties props;
+    private GraphicsContext gc;
+    private JavaFXPaintable paintable;
 
     public DrawingTool() {
-
-        //this.props = readFromFile;
+        props = new Properties();
+        //TODO:this :this.props = readFromFile;
     }
 
     @Override
     public void start(Stage primaryStage) {
         
         drawing = new Drawing("test", 500, 500);
-        canvas = new Canvas(drawing.getWidth(), drawing.getHeight());
+        Canvas canvas = new Canvas(drawing.getWidth(), drawing.getHeight());
         
         BorderPane root = new BorderPane();
         
@@ -66,11 +69,11 @@ public class DrawingTool extends Application{
         EventHandler<ActionEvent> clearAction;            
         EventHandler<ActionEvent> loadAction;    
         
-        saveAction = event -> System.out.println("save action");
-        setSerialAction = event -> System.out.println("set serialize action");
-        setDatabaseAction = event -> System.out.println("set database action");
-        loadAction = event -> System.out.println("load action");
-        clearAction = event -> System.out.println("clear action");
+        saveAction = event -> save();
+        setSerialAction = event -> setSerializer();
+        setDatabaseAction = event -> setDatabaser();
+        loadAction = event -> load();
+        clearAction = event -> clear();
         
             miSave.setOnAction(saveAction);
             miLoad.setOnAction(loadAction);
@@ -87,39 +90,109 @@ public class DrawingTool extends Application{
         primaryStage.setScene(scene);
         primaryStage.show(); 
         
-        drawing.drawTestItems();
-        
+        drawing.addTestItems();
+        gc = canvas.getGraphicsContext2D();
+        paintable = new JavaFXPaintable(gc);
         draw();
     }
+
+    private void setDatabaser() {
+        //todo test method
+        Properties tmpProps = new Properties();
+        tmpProps.setProperty("host", "127.0.0.1");
+        tmpProps.setProperty("user", "student");
+        tmpProps.setProperty("pass", "student");
+        PropertiesDialog propDialog = new PropertiesDialog("set folder options", tmpProps);
+        Optional<Properties> tProps = Optional.ofNullable(propDialog.show());
+        if (tProps.isPresent()) {
+            props.clear();
+            props.putAll(tProps.get());
+            pm = new DatabaseMediator();
+            pm.init(props);
+            System.out.println("set database");
+        } else {
+            System.out.println("cancelled");
+        }
+    }
+
+    private void setSerializer() {
+
+        Properties tmpProps = new Properties();
+        tmpProps.setProperty("location", "./drawing/images");
+        PropertiesDialog propDialog = new PropertiesDialog("set folder options", tmpProps);
+        Optional<Properties> tProps = Optional.ofNullable(propDialog.show());
+        if (tProps.isPresent()) {
+            props.clear();
+            props.putAll(tProps.get());
+            pm = new SerializationMediator();
+            pm.init(props);
+            System.out.println("set folder!");
+        } else {
+            System.out.println("cancelled");
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-
         launch(args);
         //todo: write properties to file
-       
     }
     
     public void draw(){
-        GraphicsContext gc;
-        gc = canvas.getGraphicsContext2D();
-        JavaFXPaintable paintable = new JavaFXPaintable(gc);
         drawing.paint(paintable);
     }
     
     public void save()
     {
-        //TODO: implement save
-        System.out.println("TODO: implement save");
-    }
-    
-    public Drawing load(String drawingName){
 
-        //TODO: implement load
-        System.out.println("TODO: implement load");
-        return null;
+        TextInputDialog textDialog = new TextInputDialog();
+        Optional<String> result = textDialog.showAndWait();
+        String s;
+        boolean success;
+
+        if(result.isPresent()){
+            s = result.get();
+            props.setProperty("name", s);
+            pm.init(props);
+            success = pm.save(this.drawing);
+        }
+        else{
+            success = false;
+        }
+        if(success){
+            System.out.println("Saving successful!");
+        }
+        else{
+            System.out.println("something went wrong with saving the drawing");
+        }
     }
     
+    public void load(){
+
+
+        TextInputDialog textDialog = new TextInputDialog();
+        Optional<String> result = textDialog.showAndWait();
+        Drawing loaded = null;
+        if(result.isPresent()){
+            loaded = pm.load(result.get());
+            if(loaded != null){
+                drawing = loaded;
+                draw();
+            }
+            else{
+                System.out.println("something went wrong with loading the drawing");
+            }
+        }
+        else {
+            System.out.println("please enter name of drawing to load");
+        }
+
+    }
+
+    private void clear(){
+        drawing.clear(paintable);
+    }
 }

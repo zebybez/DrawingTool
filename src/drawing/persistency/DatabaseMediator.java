@@ -12,18 +12,20 @@ import java.util.Properties;
  *
  * @author yannic
  */
-public class DatabaseMediator implements PersistencyMediator{
+public class DatabaseMediator implements PersistenceMediator {
 
-    Properties props;
+    private Properties props;
     @Override
     public Drawing load(String drawingName){
         //load from database and assemble to drawing using objectInputStream
+        //TODO: implement load
         Drawing drawing = new Drawing("drawingName", 0, 0);
         return drawing;
     }
     @Override
     public boolean save(Drawing drawing){
         //save drawing to database using objectoutputstream
+        //TODO: implement save
         return false;
     }
     

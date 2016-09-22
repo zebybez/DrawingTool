@@ -16,11 +16,11 @@ import java.io.File;
  */
 public interface Paintable {
     
-    public void setColor(Color color);
-    public void paintOval(Oval oval);
-    public void paintLine(Point from, Point to, int weight);
-    public void paintText(PaintedText text);
-    public void paintImage(Image image);
-    public void clear();
+    void setColor(Color color);
+    void paintOval(Oval oval);
+    void paintLine(Point from, Point to, int weight);
+    void paintText(PaintedText text);
+    void paintImage(Image image);
+    void clear();
     
 }
