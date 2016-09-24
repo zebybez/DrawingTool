@@ -99,11 +99,11 @@ public class DrawingTool extends Application{
     private void setDatabaser() {
         //todo test method
         Properties tmpProps = new Properties();
-        tmpProps.setProperty("host", "127.0.0.1");
+        tmpProps.setProperty("URL", "127.0.0.1");
         tmpProps.setProperty("user", "student");
         tmpProps.setProperty("pass", "student");
         PropertiesDialog propDialog = new PropertiesDialog("set folder options", tmpProps);
-        Optional<Properties> tProps = Optional.ofNullable(propDialog.show());
+        Optional<Properties> tProps = propDialog.show();
         if (tProps.isPresent()) {
             props.clear();
             props.putAll(tProps.get());
@@ -120,7 +120,7 @@ public class DrawingTool extends Application{
         Properties tmpProps = new Properties();
         tmpProps.setProperty("location", "./drawing/images");
         PropertiesDialog propDialog = new PropertiesDialog("set folder options", tmpProps);
-        Optional<Properties> tProps = Optional.ofNullable(propDialog.show());
+        Optional<Properties> tProps = propDialog.show();
         if (tProps.isPresent()) {
             props.clear();
             props.putAll(tProps.get());
@@ -145,8 +145,7 @@ public class DrawingTool extends Application{
         drawing.paint(paintable);
     }
     
-    public void save()
-    {
+    public void save() {
 
         TextInputDialog textDialog = new TextInputDialog();
         Optional<String> result = textDialog.showAndWait();
@@ -169,6 +168,7 @@ public class DrawingTool extends Application{
             System.out.println("something went wrong with saving the drawing");
         }
     }
+    // todo: implement quicksave;
     
     public void load(){
 
@@ -176,7 +176,7 @@ public class DrawingTool extends Application{
         TextInputDialog textDialog = new TextInputDialog();
         Optional<String> result = textDialog.showAndWait();
         Drawing loaded = null;
-        if(result.isPresent()){
+        if(result.isPresent() && result.get() != null){
             loaded = pm.load(result.get());
             if(loaded != null){
                 drawing = loaded;
