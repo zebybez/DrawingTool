@@ -12,6 +12,7 @@ import drawing.domain.Drawing;
 
 import java.io.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -29,12 +30,35 @@ public class DatabaseMediator implements PersistenceMediator {
     public Drawing load(String drawingName){
         //load from database and assemble to drawing using objectInputStream
         //TODO: implement load
-        Drawing drawing = new Drawing("drawingName", 0, 0);
+        Drawing drawing = null;
+        String sql = "SELECT drawing FROM drawingtool.drawings WHERE name = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, drawingName);
+
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                InputStream binIn = result.getBinaryStream("drawing");
+                ObjectInputStream objIn = new ObjectInputStream(binIn);
+                drawing = (Drawing) objIn.readObject();
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println("something went wrong with querying the database");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("something went wrong with reading your drawing");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("something went wrong with converting your drawing");
+            e.printStackTrace();
+        }
+
         return drawing;
     }
     @Override
     public boolean save(Drawing drawing){
-        //save drawing to database using objectoutputstream
 
         boolean success;
         String sql = "INSERT INTO drawingtool.drawings (name, drawingBinary) VALUES (?, ?)";
@@ -51,11 +75,9 @@ public class DatabaseMediator implements PersistenceMediator {
 
             //Create the statement
             PreparedStatement statement = conn.prepareStatement(sql);
-            //somewhere here a NullArgumentEX is thrown
             statement.setString(1, props.getProperty("name"));
             statement.setBinaryStream(2, byteIn, binDrawing.length);
             statement.execute();
-            //if(!execute) return false;
 
             success = true;
         } catch (SQLException e) {
