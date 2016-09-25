@@ -5,6 +5,10 @@
  */
 package drawing.domain;
 
+import drawing.domain.Image;
+import drawing.domain.Oval;
+import drawing.domain.PaintedText;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.io.File;

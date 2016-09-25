@@ -9,6 +9,10 @@ import drawing.javafx.JavaFXPaintable;
 import drawing.persistency.DatabaseMediator;
 import drawing.persistency.PersistenceMediator;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 import drawing.persistency.SerializationMediator;
@@ -36,6 +40,25 @@ public class DrawingTool extends Application{
 
     public DrawingTool() {
         props = new Properties();
+        FileInputStream fileIn = null;
+        try{
+            fileIn = new FileInputStream("persisency.properties");
+            props.load(fileIn);
+
+        }catch (IOException x){
+            System.out.println("kon properties niet vinden, zet de opties onder \"save to\"");
+            x.printStackTrace();
+        }finally {
+            if(fileIn != null){
+                try{
+                    fileIn.close();
+                }
+                catch (IOException x){
+                    x.printStackTrace();
+                }
+            }
+        }
+
         //TODO:this :this.props = readFromFile;
     }
 
@@ -138,7 +161,8 @@ public class DrawingTool extends Application{
     public static void main(String[] args) {
 
         launch(args);
-        //todo: write properties to file
+
+
     }
     
     public void draw(){

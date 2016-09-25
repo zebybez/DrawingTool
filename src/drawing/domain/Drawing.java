@@ -5,7 +5,6 @@
  */
 package drawing.domain;
 
-import drawing.javafx.JavaFXPaintable;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
