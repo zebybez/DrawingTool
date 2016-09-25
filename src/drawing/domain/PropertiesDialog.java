@@ -38,7 +38,7 @@ class PropertiesDialog {
         properties=p;
     }
 
-    public Properties show()
+    public Optional<Properties> show()
     {
         Properties result = new Properties();
         Integer nrOfProps = properties.size();
@@ -84,6 +84,6 @@ class PropertiesDialog {
 
         Optional<Properties> dlgResult = dialog.showAndWait();
 
-        return result;
+        return dlgResult;
     }
 }
