@@ -59,7 +59,8 @@ public class DrawingTool extends Application{
             }
         }
 
-        //TODO:this :this.props = readFromFile;
+        //TODO: test of properties uit file worden gelezen;
+        //todo: implementeer het oplsaan van properties na het setten ervan;
     }
 
     @Override
