@@ -63,7 +63,25 @@ public abstract class DrawingItem implements Comparable<DrawingItem>, Serializab
         return comp;
     }
     public abstract void paint(Paintable paintable);
-    public abstract boolean isInBounds(Point point); //TODO: implement method in all subclasses;
+
+    /**
+     * returns the top-left point and the bottom-right point of the smallest possible bounding box around this drawingItem as an Array of size 2
+     * @return
+     */
+    public abstract Point[] getBoundingBox();//TODO: implement method in all subclasses;
+
+    public boolean isInBounds(Point point){
+        Point[] box = getBoundingBox();
+        Point p1 = box[0];
+        Point p2 = box[1];
+
+        if(point.getX() >= p1.getX() && p2.getX() >= point.getX() && point.getY() >= p1.getY() && p2.getY() >= point.getY()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public boolean overlaps(DrawingItem item){
         //check using new method isInBounds whether or not this and the item overlaps

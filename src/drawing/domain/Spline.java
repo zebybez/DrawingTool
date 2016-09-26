@@ -22,6 +22,8 @@ public class Spline extends DrawingItem{
     
     //constructor
     public Spline(Point[] points, int weight, int degree, Color color, Point anchor){
+        //todo: anchor berekenen uit points ipv megeven in constructor;
+
         super(anchor, color);
         this.weight = weight;
         this.degree = degree;
@@ -73,6 +75,14 @@ public class Spline extends DrawingItem{
             paintable.paintLine(points[i], points[i+1], weight);
         }
     }
-   
-    
+
+    @Override
+    public boolean isInBounds(Point point) {
+        //todo: implement method;
+        //find smallest y, smallest x and biggeset y, biggest x
+        //then either make 2 points or calculate with and height.
+        return false;
+    }
+
+
 }
