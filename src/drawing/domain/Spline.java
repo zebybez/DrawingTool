@@ -74,14 +74,21 @@ public class Spline extends DrawingItem{
         for(int i = 0; i<points.length-1; i++){
             paintable.paintLine(points[i], points[i+1], weight);
         }
+        paintBoundingBoxForTest(paintable);
     }
 
     @Override
-    public boolean isInBounds(Point point) {
-        //todo: implement method;
-        //find smallest y, smallest x and biggeset y, biggest x
-        //then either make 2 points or calculate with and height.
-        return false;
+    public Point[] getBoundingBox() {
+
+        //find biggest and smallest X and Y
+        int[] edges = findExtremesPolygon(points);
+
+        //create 2 points for return
+        Point p1 = new Point(edges[0], edges[1]);
+        Point p2 = new Point(edges[2], edges[3]);
+        Point[] box = new Point[]{p1,p2};
+
+        return box;
     }
 
 

@@ -216,6 +216,9 @@ public class DrawingTool extends Application{
         }
 
     }
+    private void testGetFondWithAndHeight(){
+        //todo remove this or complete this
+    }
 
     private void clear(){
         drawing.clear(paintable);

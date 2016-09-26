@@ -57,6 +57,18 @@ public class Polygon extends DrawingItem{
         for(int i = 0; i<vertices.length; i++){
             paintable.paintLine(vertices[i], vertices[(i+1)%vertices.length], weight);
         }
+        paintBoundingBoxForTest(paintable);
+    }
 
+    @Override
+    public Point[] getBoundingBox() {
+
+        int[] edges = findExtremesPolygon(vertices);
+
+        //create 2 points for return
+        Point p1 = new Point(edges[0], edges[1]);
+        Point p2 = new Point(edges[2], edges[3]);
+
+        return new Point[]{p1,p2};
     }
 }

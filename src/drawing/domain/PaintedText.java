@@ -6,6 +6,9 @@
 package drawing.domain;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -50,7 +53,23 @@ public class PaintedText extends DrawingItem{
     @Override
     public void paint(Paintable paintable){
         paintable.paintText(this);
+        paintBoundingBoxForTest(paintable);
     }
-    
-    
+
+    @Override
+    public Point[] getBoundingBox() {
+
+        AffineTransform affTrans = font.getTransform();
+        FontRenderContext frc = new FontRenderContext(affTrans, true, true);
+        Rectangle2D stringBounds = font.getStringBounds(content, frc);
+        int width = (int) stringBounds.getWidth();
+        int height = (int) stringBounds.getHeight();
+
+        Point p1 = new Point(getAnchor().x, getAnchor().y - height);
+        Point p2 = new Point(p1.x + width, p1.y + height);
+
+        return new Point[]{p1,p2};
+    }
+
+
 }

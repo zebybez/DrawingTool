@@ -64,6 +64,12 @@ public abstract class DrawingItem implements Comparable<DrawingItem>, Serializab
     }
     public abstract void paint(Paintable paintable);
 
+    public void paintBoundingBoxForTest(Paintable paintable){
+        //todo: test this method in the subclasses;
+        Point[] boxPoints = this.getBoundingBox();
+        paintable.paintLine(boxPoints[0], boxPoints[1], 5);
+    }
+
     /**
      * returns the top-left point and the bottom-right point of the smallest possible bounding box around this drawingItem as an Array of size 2
      * @return
@@ -85,7 +91,46 @@ public abstract class DrawingItem implements Comparable<DrawingItem>, Serializab
 
     public boolean overlaps(DrawingItem item){
         //check using new method isInBounds whether or not this and the item overlaps
-        //TODO: implement method;
+        //TODO: test method;
+        //gets this boundingBox
+        Point[] points = getBoundingBox();
+        Point[] corners = new Point[4];
+        corners[0] = points[0];
+        corners[1] = new Point((int) points[0].getY(), (int) points[1].getX());
+        corners[2] = points[1];
+        corners[3] = new Point((int) points[1].getX(), (int) points[0].getY());
+
+        //check if any of the corners are inside items boundingBox
+        for (Point p: corners) {
+            if(item.isInBounds(p)){
+                return true;
+            }
+        }
         return false;
+    }
+
+    public int[] findExtremesPolygon(Point[] vertices){
+        int sX = 0;
+        int bX = 0;
+        int sY = 0;
+        int bY = 0;
+
+        //find extremes
+        for(Point p : vertices){
+            if(p.x > bX){
+                bX = p.x;
+            }
+            if(sX == 0 || p.x < sX){
+                sX = p.x;
+            }
+
+            if(p.y > bY){
+                bY = p.y;
+            }
+            if(sY == 0 || p.y < sY){
+                sY = p.y;
+            }
+        }
+        return new int[]{sX, sY ,bX, bY};
     }
 }

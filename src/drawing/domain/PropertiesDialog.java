@@ -32,7 +32,7 @@ class PropertiesDialog {
     private String title;
     private Properties properties;
 
-    public PropertiesDialog(String t, Properties p)
+    PropertiesDialog(String t, Properties p)
     {
         title = t;
         properties=p;
@@ -82,8 +82,6 @@ class PropertiesDialog {
             return result;
         });
 
-        Optional<Properties> dlgResult = dialog.showAndWait();
-
-        return dlgResult;
+        return dialog.showAndWait();
     }
 }

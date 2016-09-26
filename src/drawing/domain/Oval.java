@@ -51,12 +51,17 @@ public class Oval extends DrawingItem{
     
     @Override
     public void paint(Paintable paintable){
+
         paintable.paintOval(this);
+        paintBoundingBoxForTest(paintable);
     }
 
     @Override
     public Point[] getBoundingBox() {
-        return new Point[2];
+        Point[] box = new Point[2];
+        box[0] = getAnchor();
+        box[1] = new Point((int)(getAnchor().getX() + width), (int)( getAnchor().getY() + height));
+        return box;
     }
 
 

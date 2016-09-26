@@ -101,6 +101,9 @@ public class Drawing implements Serializable{
         addItem(new Polygon(5, new Point[]{new Point(4,5), new Point(16,23), new Point(36, 100)}, Color.green, new Point(9,8)));
         addItem(new Spline(new Point[]{new Point(50, 50), new Point(33, 44), new Point(100, 56)}, 0, 0, Color.black, new Point(70, 88)));
         addItem(new PaintedText("this is painted text", new Font("myfont", 4, 16), Color.orange, new Point(20, 90)));
+        Point[] testPoly = new Point[]{new Point(427,120),new Point(334,399),new Point(265,232),new Point(426,192),new Point(47,302)};
+        addItem(new Polygon(5, testPoly, Color.green, new Point(0,0)));
+
 
     }
 }

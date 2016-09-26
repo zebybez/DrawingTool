@@ -52,5 +52,13 @@ public class Image extends DrawingItem{
     public void paint(Paintable paintable){
         paintable.paintImage(this);
     }
-    
+
+    @Override
+    public Point[] getBoundingBox() {
+        //todo: implement method
+//        Point p1 = new Point(getAnchor());
+//        Point p2 = new Point(getAnchor().x,getAnchor().y);
+        return new Point[0];
+    }
+
 }
